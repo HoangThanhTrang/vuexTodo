@@ -24,7 +24,13 @@ const storeData = {
         },
         addTodo(context,newTodo){
             context.commit('ADD_TODO',newTodo)
-        }
+        },
+        editTodo(context, todoId) {
+            
+              context.commit('EDIT_TODO', todoId)
+            
+          },
+        
     },
     mutations:{
         //Hàm khi tick vào checkbox nó sẽ tự động thay đổi trạng thái true or false
@@ -39,6 +45,11 @@ const storeData = {
         },
          ADD_TODO(state,newTodo){
             state.todos.push(newTodo)
+         },
+         EDIT_TODO(state,todoId){
+             state.todos.filter(todo =>{
+                 todo.id == todoId
+             })
          }
     }
 }

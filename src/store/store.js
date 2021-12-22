@@ -19,17 +19,13 @@ const storeData = {
         }
     },
     actions:{
-        deleteTodo(context,todoId){
-            context.commit('DELETE_TODO',todoId)
+        deleteTodo(context,todo){
+            context.commit('DELETE_TODO',todo)
         },
         addTodo(context,newTodo){
             context.commit('ADD_TODO',newTodo)
         },
-        editTodo(context, todoId) {
-            
-              context.commit('EDIT_TODO', todoId)
-            
-          },
+       
         
     },
     mutations:{
@@ -40,17 +36,15 @@ const storeData = {
                 return todo
             })
         },
-        DELETE_TODO(state,todoId){
-            state.todos.splice(state.todos.indexOf(todoId), 1)
+        DELETE_TODO(state,todo){
+            const todoIndex = state.todos.indexOf(todo)
+            state.todos.splice(todoIndex, 1)
         },
          ADD_TODO(state,newTodo){
             state.todos.push(newTodo)
+            
          },
-         EDIT_TODO(state,todoId){
-             state.todos.filter(todo =>{
-                 todo.id == todoId
-             })
-         }
+         
     }
 }
 

@@ -4,7 +4,7 @@
     <p>Total todos : {{ todos.length }}</p>
     <form @submit="onSubmit" class="input_group">
       <input type="text" v-model="title" />
-      <button type="submit">{{ flag ? "Edit" : "Add" }}</button>
+      <button value="" type="submit">{{ flag ? "Edit" : "Add" }}</button>
     </form>
     <div>
       <ul>
@@ -37,8 +37,8 @@ export default {
     return {
       title: "",
       flag: false,
-      updateTitle: "",
-      id: 4,
+     
+      id: this.id,
     };
   },
 
@@ -51,50 +51,54 @@ export default {
     markCompleted(todoId) {
       this.$store.commit("MARK_COMPLETE", todoId);
     },
-    deleteTodo(todoId) {
-      this.$store.dispatch("deleteTodo", todoId);
+    deleteTodo(todo) {
+      this.$store.dispatch("deleteTodo", todo);
     },
     addTodo(newTodo) {
       this.$store.dispatch("addTodo", newTodo);
+      this.newTodo = ""
     },
     editTodo(todoId){
         this.$store.dispatch('editTodo',todoId)
     },
     onSubmit(event) {
       //bỏ hành động mặc định của submit đi
+       
       event.preventDefault();
+     
       if (this.flag) {
         console.log("edit", this.id);
         this.todos.filter((todo) => {
             if(todo.id == this.id){
                 todo.title = this.title
+                this.title = '';
+                event.target.reset();
             }
         })
+       
         
       } else {
         this.addTodo({
           id: uuidv4(),
           title: this.title,
           completed: false,
+          
+          
         });
+        this.title = '';
+        event.target.reset();
+        
+       
       }
     },
+    
     updateTodo(todo) {
+     
       this.flag = true;
       this.title = todo.title;
       this.id = todo.id;
     },
-    updateTodoMethod(e) {
-      e.preventDefault();
-      console.log(this.title);
-      console.log(this.id);
-      this.todos.filter((todo) => {
-        if (todo.id == this.id) {
-          todo.title = this.updateTitle;
-        }
-      });
-      this.flag = false;
-    },
+    
   },
 };
 </script>
